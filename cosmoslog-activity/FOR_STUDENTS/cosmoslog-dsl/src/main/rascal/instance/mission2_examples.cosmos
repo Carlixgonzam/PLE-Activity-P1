@@ -1,0 +1,21 @@
+# Valid CosmosLog examples, Mission 2
+# Use these to reconstruct the EBNF grammar on paper before you
+# touch this project. Once Mission 4 is done, come back and check
+# that your grammar accepts them with no errors. The editor
+# should show no red underlines anywhere.
+
+Mission: Artemis9
+Ship Falcon crew 6
+Report Fuel 82 percent severity: 2
+Report Comm GroundControl severity: 3
+
+Mission: Odyssey2
+Ship Odyssey crew 3
+Report Dock StationAlpha severity: 1
+Report Fuel 45 percent severity: 5 note: "Refuel scheduled next orbit"
+
+Mission: Voyager3
+Ship Nomad crew 12
+Report Anomaly "Sensor drift on panel B" severity: 7 note: "Monitoring closely"
+Ship Comet crew 2
+Report Fuel 10 percent severity: 9 note: "Critical - refuel immediately"

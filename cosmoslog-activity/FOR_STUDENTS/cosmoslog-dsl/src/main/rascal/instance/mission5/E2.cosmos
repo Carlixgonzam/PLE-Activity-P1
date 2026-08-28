@@ -1,0 +1,7 @@
+# Case E2, Mission 5: predict accepted or rejected before you open or save this file
+Mission: Artemis9
+Ship Falcon crew 6
+Report Dock StationAlpha severity: 1
+Mission: Odyssey2
+Ship Odyssey crew 3
+Report Comm GroundControl severity: 4

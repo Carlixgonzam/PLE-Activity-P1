@@ -1,0 +1,5 @@
+board 24 x 18
+snake at 12,9 length 3 heading right
+speed 140
+wall 5,4 to 5,13
+wall 18,4 to 18,13

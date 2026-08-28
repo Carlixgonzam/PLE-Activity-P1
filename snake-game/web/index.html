@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rascal Snake</title>
+<style>
+  :root {
+    --bg: #0a0e12;
+    --grid: #10181f;
+    --snake: #39ff88;
+    --snake-head: #baffce;
+    --food: #ff4d5e;
+    --wall: #3a4550;
+    --text: #d8f5e3;
+    --accent: #39ff88;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: radial-gradient(circle at 50% 0%, #132029 0%, var(--bg) 70%);
+    color: var(--text);
+    font-family: "Courier New", ui-monospace, monospace;
+  }
+  h1 {
+    margin: 0;
+    letter-spacing: 4px;
+    font-size: 22px;
+    color: var(--accent);
+    text-shadow: 0 0 8px rgba(57, 255, 136, 0.6);
+  }
+  #hud {
+    display: flex;
+    gap: 28px;
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+  #hud span.value {
+    color: var(--accent);
+  }
+  #board-wrap {
+    position: relative;
+    border: 2px solid var(--wall);
+    box-shadow: 0 0 24px rgba(57, 255, 136, 0.15);
+  }
+  canvas {
+    display: block;
+    background: var(--grid);
+  }
+  #overlay {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: rgba(5, 8, 10, 0.82);
+  }
+  #overlay.show { display: flex; }
+  #overlay p {
+    margin: 0;
+    letter-spacing: 3px;
+    color: var(--food);
+    font-size: 18px;
+  }
+  button {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 8px 18px;
+    font-family: inherit;
+    letter-spacing: 2px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: var(--accent);
+    color: #06120a;
+  }
+  #hint {
+    font-size: 12px;
+    opacity: 0.6;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<h1>RASCAL // SNAKE</h1>
+
+<div id="hud">
+  <div>SCORE <span class="value" id="score">0</span></div>
+  <div>STATUS <span class="value" id="status">RUNNING</span></div>
+</div>
+
+<div id="board-wrap">
+  <canvas id="board" width="480" height="360"></canvas>
+  <div id="overlay">
+    <p>GAME OVER</p>
+    <button id="restart">NEW GAME</button>
+  </div>
+</div>
+
+<div id="hint">arrow keys or WASD to steer</div>
+
+<script>
+const canvas = document.getElementById("board");
+const ctx = canvas.getContext("2d");
+const scoreEl = document.getElementById("score");
+const statusEl = document.getElementById("status");
+const overlay = document.getElementById("overlay");
+const restartBtn = document.getElementById("restart");
+
+let cellSize = 20;
+let tickHandle = null;
+let currentSpeed = 140;
+
+const keyToDir = {
+  "ArrowUp": "up", "w": "up", "W": "up",
+  "ArrowDown": "down", "s": "down", "S": "down",
+  "ArrowLeft": "left", "a": "left", "A": "left",
+  "ArrowRight": "right", "d": "right", "D": "right"
+};
+
+async function fetchJSON(path) {
+  const res = await fetch(path);
+  return res.json();
+}
+
+function draw(state) {
+  cellSize = Math.min(canvas.width / state.width, canvas.height / state.height);
+  canvas.width = state.width * cellSize;
+  canvas.height = state.height * cellSize;
+
+  ctx.fillStyle = "#10181f";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#3a4550";
+  for (const [x, y] of state.walls) {
+    ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+  }
+
+  ctx.fillStyle = "#ff4d5e";
+  ctx.fillRect(state.food[0] * cellSize + 2, state.food[1] * cellSize + 2, cellSize - 4, cellSize - 4);
+
+  state.snake.forEach(([x, y], i) => {
+    ctx.fillStyle = i === 0 ? "#baffce" : "#39ff88";
+    ctx.fillRect(x * cellSize + 1, y * cellSize + 1, cellSize - 2, cellSize - 2);
+  });
+
+  scoreEl.textContent = state.score;
+  statusEl.textContent = state.gameOver ? "GAME OVER" : "RUNNING";
+  overlay.classList.toggle("show", state.gameOver);
+
+  if (state.gameOver && tickHandle) {
+    clearInterval(tickHandle);
+    tickHandle = null;
+  }
+}
+
+async function tick() {
+  const state = await fetchJSON("/tick");
+  draw(state);
+}
+
+function startLoop(speed) {
+  if (tickHandle) clearInterval(tickHandle);
+  currentSpeed = speed;
+  tickHandle = setInterval(tick, currentSpeed);
+}
+
+async function newGame() {
+  const state = await fetchJSON("/reset");
+  draw(state);
+  startLoop(state.speed);
+}
+
+window.addEventListener("keydown", async (e) => {
+  const dir = keyToDir[e.key];
+  if (!dir) return;
+  e.preventDefault();
+  const state = await fetchJSON("/move?dir=" + dir);
+  draw(state);
+});
+
+restartBtn.addEventListener("click", newGame);
+
+fetchJSON("/state").then((state) => {
+  draw(state);
+  startLoop(state.speed);
+});
+</script>
+
+</body>
+</html>

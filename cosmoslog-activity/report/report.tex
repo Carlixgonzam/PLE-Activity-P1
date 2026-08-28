@@ -1,0 +1,474 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\definecolor{ratlemaroon}{RGB}{130,20,30}
+\definecolor{ratlegray}{RGB}{90,90,90}
+\definecolor{ratlegreen}{RGB}{40,110,60}
+\definecolor{ratleframe}{RGB}{190,190,190}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=ratlemaroon,
+  citecolor=ratlemaroon,
+  urlcolor=ratlemaroon,
+  pdftitle={CosmosLog Mission},
+  pdfauthor={Carla Gonzalez Mina}
+}
+
+\lstdefinelanguage{Rascal}{
+  morekeywords={module,import,extend,syntax,lexical,keyword,layout,start,data,public,%
+    test,void,str,int,bool,loc,list,set,map,tuple,value,default,visit,case,switch,%
+    if,else,for,while,return,true,false},
+  sensitive=true,
+  morecomment=[l]{//},
+  morestring=[b]"
+}
+
+\lstdefinelanguage{EBNF}{
+  morekeywords={},
+  sensitive=true,
+  morecomment=[l]{\#}
+}
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{ratlemaroon}\bfseries,
+  commentstyle=\color{ratlegray}\itshape,
+  stringstyle=\color{ratlegreen},
+  numbers=left,
+  numberstyle=\tiny\color{ratlegray},
+  numbersep=8pt,
+  frame=single,
+  rulecolor=\color{ratleframe},
+  framesep=4pt,
+  breaklines=true,
+  breakatwhitespace=false,
+  captionpos=b,
+  tabsize=2,
+  columns=fullflexible,
+  showstringspaces=false,
+  xleftmargin=1em,
+  xrightmargin=1em
+}
+
+\setlength{\headheight}{34pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[R]{\footnotesize
+  ISIS-2111 PLE\\
+  Project 1 Review Activity\\
+  Date: \today
+}
+\fancyfoot[C]{\thepage}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.6em}{}
+
+\newcommand{\coverheader}{%
+  \begin{minipage}[t]{0.55\textwidth}
+    {\Large\bfseries Universidad de los Andes}\\[2pt]
+    {\normalsize Department of Systems and Computing Engineering}
+  \end{minipage}%
+  \hfill
+  \begin{minipage}[t]{0.4\textwidth}
+    \raggedleft
+    ISIS-2111 PLE\\
+    Project 1 Review Activity\\
+    Date: \today
+  \end{minipage}
+  \par\noindent\rule{\textwidth}{0.6pt}
+}
+
+\title{\vspace{-2.5cm}}
+\date{}
+
+\begin{document}
+
+\thispagestyle{empty}
+\coverheader
+
+\vspace{1.2cm}
+\begin{center}
+  {\LARGE\bfseries CosmosLog Mission}\\[6pt]
+  {\large Design and Validation of a Review Activity for the\\ Objectilang Grammar Assignment}\\[10pt]
+  {\normalsize Prepared by Carla Gonzalez Mina}
+\end{center}
+
+\vspace{0.6cm}
+
+\noindent
+This report documents the design, the teaching materials, and the technical
+validation of a ninety minute review session built for ISIS-2111 Programming
+Language Essentials. The session prepares students for Task 1 of Project 1,
+writing the EBNF grammar of Objectilang, by having them run the same
+procedure end to end on a different, smaller language first.
+
+\vspace{0.4cm}
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+Project 1 asks each team to submit a complete EBNF grammar for Objectilang,
+an object oriented language with generics, covariance, and contravariance,
+described in the course handout through a small set of example programs.
+The \emph{Rascal DSL Tutorial} teaches the mechanics needed to eventually
+turn a grammar like that into a working parser: concrete syntax rules,
+lexical rules, keyword exclusion, and the operators that express repetition,
+optionality, and choice.
+
+Both documents assume a level of comfort with grammar design that most
+students have not yet practiced under time pressure. The review activity
+described here closes that gap. Students spend ninety minutes reconstructing,
+repairing, translating, and testing a grammar for a language unrelated to
+Objectilang, so that every mistake they are going to make in Project 1 gets
+made once already, in a lower stakes setting, with a partner and a teaching
+assistant in the room.
+
+\section{Diagnostic Analysis}
+
+\subsection{What Project 1 Requires}
+
+Task 1 asks for the alphabet of terminal symbols, the set of nonterminals,
+the distinguished start symbol, and the production rules in EBNF, where
+nonterminals are written as bare words and terminals appear in quotes. The
+grammar has to account for object declarations, inheritance through
+\texttt{extends}, values and variables, methods and method calls, basic
+types, arithmetic, boolean, and string expressions, \texttt{if-then-else}
+and \texttt{for}, and generic type parameters carrying an optional
+covariance or contravariance modifier. Reserved words, identifiers, and the
+operator and punctuation alphabet are given directly in the handout.
+
+\subsection{What the Tutorial Contributes}
+
+Section 4 of the tutorial shows how an EBNF-shaped idea becomes a Rascal
+\texttt{syntax} rule: \texttt{'terminal'} literals, named nonterminals, and
+the \texttt{+}, \texttt{*}, \texttt{?}, and \texttt{|} operators, together
+with \texttt{lexical} rules for things like identifiers and integers, and a
+\texttt{keyword} declaration that excludes reserved words from the
+identifier alphabet. Later sections cover abstract syntax, three styles of
+code generation, and validation, but the review activity only needs Section
+4, since Project 1 itself asks for a grammar on paper, not a running parser.
+
+\subsection{What the Skeleton Actually Contains}
+
+The folder distributed alongside the assignment, \texttt{Codigo
+Ordenado-2}, was inspected file by file before any activity was designed
+around it. It does not contain a project skeleton for Objectilang. It holds
+the tutorial's own reference code, organized by section, built around the
+tutorial's example language of Planning, PersonTasks, and Task. It has no
+\texttt{META-INF/RASCAL.MF}, no \texttt{src/main/rascal} layout, and no
+content related to Objectilang. That code was still useful: it is a fully
+working Rascal project in a domain other than Objectilang, exactly the kind
+of material the activity needed for hands on practice without handing
+students a solution to their actual assignment.
+
+\subsection{Anticipated Difficulties}
+
+Four difficulties show up reliably when students first design a grammar.
+Confusing a terminal with a nonterminal, especially when a keyword is not
+quoted. Choosing the wrong repetition or optionality operator, most often
+because the operator was inferred from what feels natural rather than from
+what the examples actually show. Forgetting that identifiers must exclude
+reserved words, an omission that produces a grammar that still accepts
+every positive example handed to it, which makes the bug invisible until
+someone tries a case built to expose it. Representing a generic type
+parameter with an optional variance modifier, the hardest single rule in
+the whole assignment, since it requires composing an optional element with
+a choice inside a declaration.
+
+\section{Activity Design}
+
+\subsection{Learning Objectives}
+
+By the end of the session a team should be able to tell terminals,
+nonterminals, the start symbol, and production rules apart in an unfamiliar
+grammar; turn a set of valid example programs into a complete EBNF grammar;
+find and justify errors in a grammar written by someone else; translate a
+small EBNF rule into Rascal concrete syntax; tell a \texttt{syntax} rule
+from a \texttt{lexical} rule and a reserved word declaration; design test
+cases, both positive and negative, that would expose a specific class of
+bug; and represent a generic type parameter with an optional variance
+modifier, without having seen Objectilang's own version of that rule.
+
+\subsection{Format}
+
+Ninety minutes, pairs or small groups, one computer per group already
+running a Rascal enabled VS Code, and a teaching assistant circulating
+through the room. Groups work through six missions in order, each with a
+time limit, up to three hints available on request, and a defined bar for
+clearing the mission.
+
+\subsection{Domain Choice}
+
+The main practice domain is CosmosLog, a small language for space mission
+logs, invented for this activity. It shares the shape of the tutorial's own
+Planning and Task language, one or more top level entries each containing
+one or more nested entries, several kinds of leaf record selected by a
+keyword, and an optional trailing field, but with different vocabulary and
+a different concrete structure, so that reconstructing its grammar is a
+genuine exercise rather than a transcription of something already seen.
+
+\subsection{Mission Overview}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+\textbf{Mission} & \textbf{Time} & \textbf{What it trains} \\
+\midrule
+1. Fast classification & 7 min & Telling terminals, nonterminals, and EBNF operators apart, using a grammar the students already built \\
+2. Grammar archaeology & 15 min & Writing a complete EBNF grammar from valid example programs \\
+3. Repair bay & 13 min & Finding and correcting six planted bugs in someone else's grammar \\
+4. Translation to the engine & 15 min & Turning EBNF into Rascal concrete syntax and getting real parser feedback \\
+5. Test case detectives & 10 min & Predicting acceptance or rejection, then designing cases that reveal bugs \\
+6. The variance challenge & 10 min & Representing an optional covariance or contravariance modifier in EBNF \\
+\bottomrule
+\end{tabularx}
+\caption{The six missions, their time budget, and the skill each one trains.}
+\end{table}
+
+An introduction of five minutes opens the session, and a wrap up discussion
+of eight minutes followed by a seven minute closing reflection closes it,
+bringing the total to ninety minutes exactly.
+
+\section{The CosmosLog Domain-Specific Language}
+
+\subsection{Reference Grammar}
+
+Listing~\ref{lst:ebnf} is the reference EBNF grammar for CosmosLog, the one
+a correct Mission 2 submission should approximate. It is never shown to
+students before the session; they reconstruct it themselves from the
+example log in Listing~\ref{lst:cosmos-example}.
+
+\begin{lstlisting}[language=EBNF,caption={CosmosLog reference grammar, EBNF form},label={lst:ebnf}]
+MissionControlLog ::= Mission+
+
+Mission ::= "Mission:" ID Nave+
+
+Nave ::= "Ship" ID "crew" INT Report+
+
+Report ::= "Report" ReportKind "severity" ":" INT Note?
+
+ReportKind ::= FuelReport | AnomalyReport | CommReport | DockReport
+
+FuelReport ::= "Fuel" INT "percent"
+AnomalyReport ::= "Anomaly" STRING
+CommReport ::= "Comm" ID
+DockReport ::= "Dock" ID
+
+Note ::= "note" ":" STRING
+\end{lstlisting}
+
+\subsection{Rascal Concrete Syntax}
+
+Listing~\ref{lst:rascal-grammar} is the same grammar translated into Rascal,
+matching the pattern the tutorial teaches in Section 4.1. This is the
+grammar Mission 4 asks students to arrive at on their own, starting from a
+file that gives them only the lexical alphabet and a set of labeled gaps.
+
+\begin{lstlisting}[language=Rascal,caption={CosmosLog grammar in Rascal concrete syntax},label={lst:rascal-grammar}]
+start syntax MissionControlLog
+    = missionControlLog: Mission+ missions
+;
+
+syntax Mission
+    = mission: 'Mission:' ID name Nave+ naves
+;
+
+syntax Nave
+    = nave: 'Ship' ID name 'crew' INT crewSize Report+ reports
+;
+
+syntax Report
+    = report: 'Report' ReportKind kind 'severity' ':' INT sev Note? note
+;
+
+syntax ReportKind
+    = fuel: FuelReport fuelReport
+    | anomaly: AnomalyReport anomalyReport
+    | comm: CommReport commReport
+    | dock: DockReport dockReport
+;
+
+syntax FuelReport = fuelReport: 'Fuel' INT pct 'percent' ;
+syntax AnomalyReport = anomalyReport: 'Anomaly' STRING description ;
+syntax CommReport = commReport: 'Comm' ID target ;
+syntax DockReport = dockReport: 'Dock' ID station ;
+
+syntax Note = note: 'note' ':' STRING text ;
+
+keyword Reserved = "Mission" | "Ship" | "crew" | "Report" | "severity"
+                  | "note" | "Fuel" | "percent" | "Anomaly" | "Comm"
+                  | "Dock" | ":";
+\end{lstlisting}
+
+\subsection{Example Instance}
+
+\begin{lstlisting}[caption={A valid CosmosLog log, used throughout Missions 2, 4, and 5},label={lst:cosmos-example}]
+Mission: Artemis9
+Ship Falcon crew 6
+Report Fuel 82 percent severity: 2
+Report Comm GroundControl severity: 3
+
+Mission: Odyssey2
+Ship Odyssey crew 3
+Report Dock StationAlpha severity: 1
+Report Fuel 45 percent severity: 5 note: "Refuel scheduled next orbit"
+
+Mission: Voyager3
+Ship Nomad crew 12
+Report Anomaly "Sensor drift on panel B" severity: 7 note: "Monitoring closely"
+Ship Comet crew 2
+Report Fuel 10 percent severity: 9 note: "Critical - refuel immediately"
+\end{lstlisting}
+
+This single log exercises every construct in the grammar: more than one
+mission per file, more than one ship per mission, all four report kinds,
+and a report with and without its optional note.
+
+\section{Mission 6 and the Objectilang Connection}
+
+\label{sec:mission6}
+Mission 6 is the deliberate bridge to the hardest part of Project 1. It
+asks students to design an EBNF rule for \texttt{Manifest}, a generic cargo
+container carrying a single type parameter with an optional covariance or
+contravariance modifier, in the same spirit as \texttt{List[+A]} and
+\texttt{Transformer[-In,+Out]} from the Project 1 handout, without ever
+showing them Objectilang's own grammar. One valid answer is:
+
+\begin{lstlisting}[language=EBNF,caption={A valid Mission 6 answer for the Manifest rule}]
+Manifest ::= "Manifest" "[" TypeParam "]"
+TypeParam ::= Variance? ID
+Variance ::= "+" | "-"
+\end{lstlisting}
+
+Students are then asked, without writing the rule out, to explain how this
+would extend to two type parameters with independent modifiers, which is
+exactly the shape of \texttt{Transformer[-In,+Out]}. A grading rubric for
+this mission accepts any structurally sound answer, not only the one shown
+above, since the point is transferring the pattern, not matching a fixed
+string.
+
+\section{Materials Produced}
+
+The activity ships as a self contained folder, \texttt{cosmoslog-activity},
+split into a student facing half and an instructor only half.
+
+\begin{itemize}[nosep]
+  \item \texttt{FOR\_STUDENTS/student\_handout.md}, the complete session
+    handout: context, rules, all six missions, the example log, and a
+    submission checklist.
+  \item \texttt{FOR\_STUDENTS/cosmoslog-dsl/}, a working Rascal project
+    with the layout and lexical alphabet already filled in and the seven
+    syntax rules left as labeled gaps for Mission 4, plus the example and
+    test instance files used in Missions 2 and 5.
+  \item \texttt{FOR\_TA/session\_script.md}, a minute by minute script
+    covering timing, instructions, files used, and what to watch for in
+    each mission.
+  \item \texttt{FOR\_TA/ta\_guide.md}, the answer key: solutions, three
+    tiered hints per mission, guiding questions, common mistakes, and a
+    short formative rubric.
+  \item \texttt{FOR\_TA/reference\_solutions/}, the finished grammar, the
+    Mission 2 reference grammar, the Mission 3 bug list with evidence, the
+    Mission 6 sample answers, and a small automated regression project
+    described in Section~\ref{sec:verification}.
+\end{itemize}
+
+\section{Technical Integration and Verification}
+\label{sec:verification}
+
+Every technical claim in this report was checked against a running Rascal
+installation rather than left as an assumption.
+
+\subsection{Compilation Check}
+
+The reference grammar was compiled with the real Rascal type checker,
+invoked through the \texttt{rascal-maven-plugin} \texttt{compile} goal.
+The build reported zero errors and zero undefined symbols, confirming that
+the grammar is valid Rascal and that \texttt{start[MissionControlLog]}
+resolves correctly.
+
+\subsection{Automated Regression Test}
+
+A small self contained project, \texttt{FOR\_TA/reference\_solutions/%
+smoke-test/}, bundles the reference grammar together with the example log
+and the six Mission 5 test cases, and a \texttt{SmokeTest} module that
+parses each one and compares the result against its expected outcome. This
+is not a one time check; it can be rerun after any change to the reference
+grammar, or against a different Rascal distribution, in under two minutes.
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{@{}l l l@{}}
+\toprule
+\textbf{Case} & \textbf{Expected} & \textbf{What it tests} \\
+\midrule
+Positive log & Accepted & The full example log, all four report kinds \\
+E1 & Accepted & A minimal single mission, single ship instance \\
+E2 & Accepted & Two missions, a Dock report, no note anywhere \\
+E3 & Rejected & Missing the leading \texttt{"Mission:"} literal \\
+E4 & Rejected & A string given where \texttt{severity} expects an integer \\
+E5 & Rejected & A reserved word used as a ship name \\
+E6 & Accepted & A negative crew size, syntactically legal, semantically absurd \\
+\bottomrule
+\end{tabular}
+\caption{The seven automated test cases and their confirmed outcome.}
+\end{table}
+
+Every one of the seven cases matched its expected outcome on the last run,
+across two independent execution paths: the Rascal interpreter invoked
+directly, and the type checker invoked through Maven. Case E6 is kept
+deliberately even though it passes, since it is the anchor for the closing
+discussion about the difference between a syntax error and a validation
+error, the subject of Section 8 of the tutorial.
+
+\section{Mapping Missions to Project 1}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+\textbf{Mission} & \textbf{Where it resurfaces in Project 1} \\
+\midrule
+1 & The requirement to state the sets of terminals and nonterminals explicitly \\
+2 & Turning Snippets 1 through 4 into the Objectilang grammar \\
+3 & Self review before submitting, catching the same classes of bug \\
+4 & Preparation for any future assignment that asks for a working implementation \\
+5 & Designing test cases against one's own grammar \\
+6 & \texttt{List[+A]} and \texttt{Transformer[-In,+Out]}, see Section~\ref{sec:mission6} \\
+\bottomrule
+\end{tabularx}
+\caption{How each mission maps back onto a concrete requirement of Project 1.}
+\end{table}
+
+\section{Conclusion}
+
+The activity turns four abstract skills, reading examples into a grammar,
+catching grammar bugs, translating EBNF into a working parser, and
+designing test cases, into something a pair of students can practice once,
+under time pressure, before those same skills matter for a grade. Every
+grammar, every test case, and every expected result in this report was
+verified against a running Rascal installation rather than asserted, and
+the automated regression project in
+\texttt{FOR\_TA/reference\_solutions/smoke-test/} lets that verification be
+repeated at any time.
+
+\end{document}
