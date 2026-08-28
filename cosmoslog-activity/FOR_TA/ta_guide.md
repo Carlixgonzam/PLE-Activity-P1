@@ -117,7 +117,7 @@ guesswork.
 
 ## Mission 4: Translation to the engine
 
-See `reference_solutions/CosmosSyntax_solution.rsc`.
+See `reference_solutions/CosmosSyntaxSolution.rsc`.
 
 Hints, level one: go back to Section 4.1 of the tutorial. How did the
 `Task` rule look in Rascal? Their `Report` rule translates in almost the
@@ -128,7 +128,7 @@ Level two: did they save the file? Did they rerun the main function in
 that the DSL has to be re-registered every time the grammar changes.
 
 Level three: show them, without letting them copy paste yet, the full
-`Report` rule from `CosmosSyntax_solution.rsc` and ask them to compare it
+`Report` rule from `CosmosSyntaxSolution.rsc` and ask them to compare it
 field by field with their own.
 
 Common mistakes: confusing the terminal `'Fuel'` with `Fuel`, which
@@ -142,7 +142,7 @@ file that has no `note:`.
 
 A fast way to check your own understanding: open
 `instance/mission2_examples.cosmos` yourself with
-`CosmosSyntax_solution.rsc` in place. There should be no underlines at
+`CosmosSyntaxSolution.rsc` in place. There should be no underlines at
 all. Keep that mental picture handy when a group says they don't know
 what's missing.
 

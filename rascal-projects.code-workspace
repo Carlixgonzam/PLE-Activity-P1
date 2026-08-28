@@ -1,0 +1,17 @@
+{
+    "folders": [
+        {
+            "name": "cosmoslog-dsl (student project, Mission 4)",
+            "path": "cosmoslog-activity/FOR_STUDENTS/cosmoslog-dsl"
+        },
+        {
+            "name": "cosmoslog smoke-test (TA only)",
+            "path": "cosmoslog-activity/FOR_TA/reference_solutions/smoke-test"
+        },
+        {
+            "name": "snake-game",
+            "path": "snake-game"
+        }
+    ],
+    "settings": {}
+}

@@ -1,10 +1,16 @@
-module CosmosSyntax
+module CosmosSyntaxSolution
 
 // Reference solution. Do not distribute to students.
-// Drop this in place of a group's CosmosSyntax.rsc only when you
-// need to quickly check that a test case from E1 through E6
-// behaves as expected, or as a last resort to unblock a group
-// during Mission 4 or 5.
+//
+// Named CosmosSyntaxSolution, not CosmosSyntax, on purpose: this file
+// is not its own runnable project, it is loose reference material, and
+// giving it the same module name as the real CosmosSyntax.rsc files in
+// cosmoslog-dsl and smoke-test caused a duplicate module error the
+// moment all three ended up open in the same VS Code window.
+//
+// To actually use this to unblock a group, copy everything below the
+// module line into their CosmosSyntax.rsc, replacing its TODO section.
+// Leave their own "module CosmosSyntax" line at the top untouched.
 
 layout Layout = WhitespaceAndComment* !>> [\ \t\n\r#];
 lexical WhitespaceAndComment = [\ \t\n\r] | @category="Comment" "#" ![\n]* $;

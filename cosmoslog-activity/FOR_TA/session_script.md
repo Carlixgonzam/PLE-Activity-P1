@@ -8,8 +8,8 @@ Before the session starts, send `FOR_STUDENTS/` to every group with enough
 lead time that they can add it to their VS Code workspace. Confirm each
 student already has their own `rascaldsl` project from Section 4 of the
 tutorial up and running, since Mission 1 depends on it. Keep
-`reference_solutions/CosmosSyntax_solution.rsc` open somewhere so you can
-paste it in for a group that is completely stuck during Mission 4. A
+`reference_solutions/CosmosSyntaxSolution.rsc` open somewhere so you can
+paste from it for a group that is completely stuck during Mission 4. A
 visible countdown timer helps a lot here, so set one up if you can.
 
 ## Introduction, 5 minutes
@@ -99,10 +99,11 @@ order than the examples show, for instance putting `Note` before
 `severity`; using `*` where `+` belongs, or the reverse; and forgetting
 that literal keywords need single quotes.
 
-If a group is completely stuck with under five minutes left, drop
-`reference_solutions/CosmosSyntax_solution.rsc` into their project so they
-can at least reach Mission 5 with something working. Note that they didn't
-finish Mission 4 on their own when you score it.
+If a group is completely stuck with under five minutes left, open
+`reference_solutions/CosmosSyntaxSolution.rsc` and copy everything below
+its module line into their `CosmosSyntax.rsc`, below their own module
+line, so they can at least reach Mission 5 with something working. Note
+that they didn't finish Mission 4 on their own when you score it.
 
 ## Mission 5: Test case detectives, 10 minutes
 
