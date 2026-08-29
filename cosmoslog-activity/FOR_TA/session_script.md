@@ -10,10 +10,15 @@ and when. The reference EBNF and Rascal files sit in `reference_solutions/`.
  - Confirm each student already has their own `rascaldsl` project from 
  Section 4 of the tutorial up and running, since Mission 1 depends on it. 
  - Keep `reference_solutions/CosmosSyntaxSolution.rsc` open somewhere so 
- you can paste from it for a group that is completely stuck during Mission 
+ you can paste from it for a group that is completely stuck during Mission 4. 
  - A visible countdown timer helps a lot here, so set one up if you can.
+ - For the opening demo, start the Snake game on your own machine ahead of
+ time: `java -jar rascal-shell-stable.jar Loop` in one terminal from inside
+ `snake-game/`, then `python3 bridge.py` in another. Confirm
+ `http://localhost:8000` loads before students walk in. See
+ `snake-game/README.md` if either command errors.
 
-## Introduction, 5 minutes
+## Introduction and Snake demo, 8 minutes
 
 Set the story and the rules, and make the link to Project 1 unmistakable.
 Tell them plainly: nobody is going to see or write Objectilang's grammar
@@ -23,7 +28,35 @@ this once end to end. Walk through the scoring system described in the
 rubric, and the three hint limit per mission. Pairs, and everyone moves on
 when the timer says so.
 
-## Mission 1: Fast classification, 7 minutes
+**Opening hook: the Snake game, about 3 minutes**
+
+Before handing out Mission 1, show them why any of this matters. You run
+this, nobody else needs to touch anything.
+
+ - Have `snake-game/src/main/rascal/levels/level1.snake` and
+ `LevelSyntax.rsc` open in one window, and the game itself open in a
+ browser tab, both already running from the prep step above.
+ - Point at three lines of `level1.snake`: the board size, the snake's
+ starting position, one `wall` line. Say plainly that this whole level is
+ written in a tiny language, and somewhere there has to be a grammar
+ deciding what counts as a valid line in it.
+ - Open `LevelSyntax.rsc` and point at the `wall` rule for a couple of
+ seconds, just enough for them to notice it is the same shape as
+ everything they are about to build: a `syntax` rule, terminals in
+ quotes, `INT` for the numbers.
+ - Break it live. Change a `wall` line so it uses a word instead of a
+ number, save it, and point at the red squiggle: the grammar just
+ rejected something.
+ - Fix it back, save, click New Game in the browser. The level updates
+ with no restart needed. Land the point: the grammar they are about to
+ write is not a paper exercise, it decides what a real program is and
+ is not allowed to say, today for CosmosLog, in a few weeks for
+ Objectilang.
+
+Keep this under three minutes, it is a hook, not a lesson. The real work
+starts with Mission 1.
+
+## Mission 1: Fast classification, 6 minutes
 
 Files: `Syntax.rsc` from `Codigo Ordenado-2/4 Concrete Syntax/`, or each
 student's own copy inside their `rascaldsl` project.
@@ -138,7 +171,7 @@ Don't mark a structurally sound answer wrong just because it doesn't match
 the reference solution word for word. Keep one or two interesting or
 contrasting answers in mind to show during the wrap up.
 
-## Wrap up, 8 minutes
+## Wrap up, 7 minutes
 
 Ask one group to walk through bug six from Mission 3 if they caught it. If
 nobody did, present it yourself and explain why it's so easy to miss.
@@ -153,7 +186,11 @@ what you'll need for `List[+A]` or `Transformer[-In,+Out]` in Project 1?
 If you're keeping score to the end, announce whichever team collected the
 most approvals.
 
-## Closing and reflection, 7 minutes
+## Closing and reflection, 6 minutes
+
+Callback to the opening demo if you want a clean bookend: the Snake level
+grammar they saw broken and fixed in three minutes is the same kind of
+rule they now know how to write, read, and repair themselves.
 
 Project or read out loud how each mission maps onto Project 1.
 

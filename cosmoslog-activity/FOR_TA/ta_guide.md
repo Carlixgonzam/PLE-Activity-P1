@@ -8,15 +8,20 @@ mistakes, timing, and a short rubric.
 
 ## Suggested timing for the 90 minutes
 
- - Introduction - 5 minutes. 
- - Mission 1 - 7 minutes, total 12 minutes. 
- - Mission 2 - 15 minutes, total 27 minutes. 
- - Mission 3 - 13 minutes, total 40 minutes. 
- - Mission 4 - 15 minutes, total 55 minutes. 
- - Mission 5 - 10 minutes, total 65 minutes.
- - Mission 6 - 10 minutes, total 75 minutes. 
- - The wrap up - 8 minutes, total 83 minutes. 
- - Closing and reflection - 7 minutes, total 90 minutes.
+ - Introduction and Snake demo - 8 minutes. 
+ - Mission 1 - 6 minutes, total 14 minutes. 
+ - Mission 2 - 15 minutes, total 29 minutes. 
+ - Mission 3 - 13 minutes, total 42 minutes. 
+ - Mission 4 - 15 minutes, total 57 minutes. 
+ - Mission 5 - 10 minutes, total 67 minutes.
+ - Mission 6 - 10 minutes, total 77 minutes. 
+ - The wrap up - 7 minutes, total 84 minutes. 
+ - Closing and reflection - 6 minutes, total 90 minutes.
+
+The Snake demo inside the introduction is a three minute live demo you
+run yourself on your own machine, not something students touch. See
+`session_script.md` for the exact script and `snake-game/README.md` for
+how to get it running before the room fills up.
 
 Missions 2 and 4 are the ones most likely to run long or short depending 
 on the group, so they can absorb a couple of minutes borrowed from 

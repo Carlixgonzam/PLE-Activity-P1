@@ -12,6 +12,7 @@
 \usepackage{tabularx}
 \usepackage{enumitem}
 \usepackage{hyperref}
+\usepackage{graphicx}
 
 \definecolor{ratlemaroon}{RGB}{130,20,30}
 \definecolor{ratlegray}{RGB}{90,90,90}
@@ -223,6 +224,37 @@ keyword, and an optional trailing field, but with different vocabulary and
 a different concrete structure, so that reconstructing its grammar is a
 genuine exercise rather than a transcription of something already seen.
 
+\subsection{Opening Hook: the Snake Demo}
+\label{sec:snake-demo}
+
+The introduction begins with a three minute demo the teaching assistant
+runs alone; no student needs to touch anything. A small arcade game,
+Rascal Snake, is already running on the instructor's machine before the
+room fills up: a Rascal program owns the game state and decides every
+move, and a browser page only draws whatever it is told to draw.
+Figure~\ref{fig:snake-demo} shows that page.
+
+The level itself, board size, wall placement, starting position, is
+written in a small language with its own EBNF grammar, defined in a
+file called \texttt{LevelSyntax.rsc}. The teaching assistant points at
+a few lines of a level file, points at the matching grammar rule, then
+breaks it live: a wall coordinate written as a word instead of a
+number, saved, and the editor immediately shows a parse error. Fixing
+it and reloading the level shows the change take effect at once, with
+no process restart required. The point lands in under three minutes:
+the grammar a team is about to write is not a paper exercise, it
+decides what a real program is and is not allowed to say, today for
+CosmosLog, in a few weeks for Objectilang.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.55\textwidth]{assets/snake-demo.png}
+\caption{Rascal Snake running from a fresh level. The board, the walls,
+and the snake are all drawn from a state Rascal computed; the page
+itself contains no game logic.}
+\label{fig:snake-demo}
+\end{figure}
+
 \subsection{Mission Overview}
 
 \begin{table}[h!]
@@ -232,7 +264,7 @@ genuine exercise rather than a transcription of something already seen.
 \toprule
 \textbf{Mission} & \textbf{Time} & \textbf{What it trains} \\
 \midrule
-1. Fast classification & 7 min & Telling terminals, nonterminals, and EBNF operators apart, using a grammar the students already built \\
+1. Fast classification & 6 min & Telling terminals, nonterminals, and EBNF operators apart, using a grammar the students already built \\
 2. Grammar archaeology & 15 min & Writing a complete EBNF grammar from valid example programs \\
 3. Repair bay & 13 min & Finding and correcting six planted bugs in someone else's grammar \\
 4. Translation to the engine & 15 min & Turning EBNF into Rascal concrete syntax and getting real parser feedback \\
@@ -243,9 +275,10 @@ genuine exercise rather than a transcription of something already seen.
 \caption{The six missions, their time budget, and the skill each one trains.}
 \end{table}
 
-An introduction of five minutes opens the session, and a wrap up discussion
-of eight minutes followed by a seven minute closing reflection closes it,
-bringing the total to ninety minutes exactly.
+An introduction of eight minutes opens the session, including the Snake
+demo of Section~\ref{sec:snake-demo}, and a wrap up discussion of seven
+minutes followed by a six minute closing reflection closes it, bringing
+the total to ninety minutes exactly.
 
 \section{The CosmosLog Domain-Specific Language}
 
@@ -389,6 +422,12 @@ split into a student facing half and an instructor only half.
     Mission 6 sample answers, and a small automated regression project
     described in Section~\ref{sec:verification}.
 \end{itemize}
+
+A second, sibling folder, \texttt{snake-game}, holds the Rascal Snake
+project used for the opening demo of Section~\ref{sec:snake-demo}. It is
+not part of \texttt{cosmoslog-activity} and students never open it; it
+exists purely for the teaching assistant to run before the session
+starts, with its own setup instructions in \texttt{snake-game/README.md}.
 
 \section{Technical Integration and Verification}
 \label{sec:verification}

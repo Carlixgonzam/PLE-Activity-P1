@@ -26,7 +26,12 @@ whatever channel the course already uses. Each student should also have
 their own `rascaldsl` project open already, the one built from
 `Codigo Ordenado-2` while following the tutorial.
 
-During the session, follow `FOR_TA/session_script.md`.
+During the session, follow `FOR_TA/session_script.md`. It opens with a
+three minute demo run from the Snake game project, a sibling folder at
+`../snake-game/`, not part of this folder. Start that game on your own
+machine before students arrive, see `snake-game/README.md`, since the
+demo is the TA changing its level grammar live, not something students
+run themselves.
 
 When a group gets stuck, work through the graded hints in
 `FOR_TA/ta_guide.md` instead of handing over the answer right away.
