@@ -8,16 +8,19 @@ mistakes, timing, and a short rubric.
 
 ## Suggested timing for the 90 minutes
 
-Introduction takes 5 minutes, bringing the running total to 5. Mission 1
-takes 7 minutes, total 12. Mission 2 takes 15, total 27. Mission 3 takes
-13, total 40. Mission 4 takes 15, total 55. Mission 5 takes 10, total 65.
-Mission 6 takes 10, total 75. The wrap up takes 8, total 83. Closing and
-reflection takes 7, bringing the session to exactly 90.
+ - Introduction - 5 minutes. 
+ - Mission 1 - 7 minutes, total 12 minutes. 
+ - Mission 2 - 15 minutes, total 27 minutes. 
+ - Mission 3 - 13 minutes, total 40 minutes. 
+ - Mission 4 - 15 minutes, total 55 minutes. 
+ - Mission 5 - 10 minutes, total 65 minutes.
+ - Mission 6 - 10 minutes, total 75 minutes. 
+ - The wrap up - 8 minutes, total 83 minutes. 
+ - Closing and reflection - 7 minutes, total 90 minutes.
 
-There's no real slack in that schedule, but Missions 2 and 4 are the ones
-most likely to run long or short depending on the group, so they can
-absorb a couple of minutes borrowed from elsewhere if you're on track
-everywhere else.
+Missions 2 and 4 are the ones most likely to run long or short depending 
+on the group, so they can absorb a couple of minutes borrowed from 
+elsewhere if you're on track everywhere else.
 
 ## Mission 1: Fast classification
 

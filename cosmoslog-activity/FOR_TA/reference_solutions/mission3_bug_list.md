@@ -20,35 +20,32 @@ Note ::= "note" STRING
 
 ## The six bugs
 
-Bug one sits on the first line, `MissionControlLog ::= Mission`. It's
+1. On the first line, `MissionControlLog ::= Mission`. It's
 missing the `+`, so only one mission is allowed. The log example has
-three separate `Mission:` blocks, which proves it. This is a missing
-repetition operator.
+three separate `Mission:` blocks. 
 
-Bug two sits on `Mission ::= "Mission:" ID Nave`. It's also missing a
+2. On `Mission ::= "Mission:" ID Nave`. It's also missing a
 `+`, allowing only one ship per mission. The Voyager3 mission has two
-ships, Nomad and Comet, which proves it. Same category, a missing
-repetition operator.
+ships, Nomad and Comet. 
 
-Bug three sits on the `Report` rule, where `Note` is required instead of
+3. On the `Report` rule, where `Note` is required instead of
 optional. The Fuel and Comm reports under Artemis9 have no `note:` at
-all, which proves it. This is a missing optionality operator.
+all. 
 
-Bug four sits on `ReportKind`, which only lists three alternatives and
+4. On `ReportKind`, which only lists three alternatives and
 leaves out `DockReport`. The Odyssey2 mission uses
-`Report Dock StationAlpha ...`, which proves it. This is a missing
-alternative in a choice.
+`Report Dock StationAlpha ...`. 
 
-Bug five sits on `Note ::= "note" STRING`, which is missing the `":"`
+5. On `Note ::= "note" STRING`, which is missing the `":"`
 between the keyword and the string. Every example writes `note: "..."`
-with a colon in between, which proves it. This is a missing terminal.
+with a colon in between.
 
-Bug six doesn't sit anywhere in particular, because it's an omission: the
+6. Bug six doesn't sit anywhere in particular, because it's an omission: the
 grammar never states that `ID` excludes reserved words. No single
-positive example exposes this one, which is exactly what makes it a
-silent bug. Something like `Ship Report crew 6` would be technically
+positive example exposes this, what makes it a silent bug. 
+Something like `Ship Report crew 6` would be technically
 permitted with no visible contradiction until you actually think through
-edge cases. This is a missing rule about the identifier alphabet.
+edge cases.
 
 ## The repaired grammar, matching the Mission 2 reference
 
@@ -72,6 +69,7 @@ reserved word.
 
 Finding and correcting at least four of the six bugs, with reasoning
 grounded in the examples rather than a gut feeling, clears the mission.
+
 All six earns a full approval, see the rubric in `ta_guide.md`.
 
 ## A teaching note

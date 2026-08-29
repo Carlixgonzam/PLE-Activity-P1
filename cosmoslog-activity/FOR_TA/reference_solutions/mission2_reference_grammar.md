@@ -65,24 +65,31 @@ Anomaly, Comm, Dock
 Their exact nonterminal names do not need to match this document. What
 matters is the structure.
 
-Does the top level rule use `+` on `Mission`, not `*` and not a bare
-symbol with no operator? The handout asks for one or more missions,
-proven by the three blocks in the example. Does `Mission` use `+` on
-`Nave`? The Voyager3 mission has two ships. Does `Nave` use `+` on
-`Report`? Does `Report` mark `Note` as optional with `?`, rather than
-mandatory or missing entirely? Does `ReportKind` have four alternatives?
+ - Does the top level rule use `+` on `Mission`, not `*` and not a bare
+symbol with no operator? 
+The handout asks for one or more missions, proven by the three blocks in the example. 
+ - Does `Mission` use `+` on
+`Nave`? The Voyager3 mission has two ships. 
+ - Does `Nave` use `+` on
+`Report`? 
+ - Does `Report` mark `Note` as optional with `?`, rather than
+mandatory or missing entirely? 
+ - Does `ReportKind` have four alternatives?
 It's common for a team to only find three, missing Dock, if they didn't
-check every example carefully. Do they treat `":"` as a separate terminal
+check every example carefully. 
+ - Do they treat `":"` as a separate terminal
 from `"severity"` and from `"note"`, two tokens rather than one merged
-token, matching how the examples actually write it? Do they say anywhere,
-even informally, that identifiers can't match a reserved word? That
-connects directly to Section 3 of the Project 1 handout.
+token, matching how the examples actually write it? 
+ - Do they say anywhere, even informally, that identifiers can't match 
+a reserved word? That connects directly to Section 3 of the Project 1 handout.
 
 ## Mistakes you'll likely see
 
-Merging `Report` and `ReportKind` into one large rule. Not wrong on its
+- Merging `Report` and `ReportKind` into one large rule. Not wrong on its
 own, but it makes Mission 4's translation into Rascal harder, so suggest
-splitting it without requiring it. Placing `severity` after `note` in
+splitting it without requiring it. 
+ - Placing `severity` after `note` in
 their rule because some groups don't check the actual order in the
-examples closely enough. Writing `ID` as a quoted terminal instead of
+examples closely enough. 
+ - Writing `ID` as a quoted terminal instead of
 treating it as a nonterminal.
