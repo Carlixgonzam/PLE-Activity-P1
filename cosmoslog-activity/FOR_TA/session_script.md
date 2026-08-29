@@ -4,13 +4,14 @@ Internal use only. Detailed solutions, three tiered hints, and the rubric
 live in `ta_guide.md`. This document is the operational script, what to do
 and when. The reference EBNF and Rascal files sit in `reference_solutions/`.
 
-Before the session starts, send `FOR_STUDENTS/` to every group with enough
-lead time that they can add it to their VS Code workspace. Confirm each
-student already has their own `rascaldsl` project from Section 4 of the
-tutorial up and running, since Mission 1 depends on it. Keep
-`reference_solutions/CosmosSyntaxSolution.rsc` open somewhere so you can
-paste from it for a group that is completely stuck during Mission 4. A
-visible countdown timer helps a lot here, so set one up if you can.
+**Before the session starts**
+ - Send `FOR_STUDENTS/` to every group with enough lead time that they can 
+ add it to their VS Code workspace. 
+ - Confirm each student already has their own `rascaldsl` project from 
+ Section 4 of the tutorial up and running, since Mission 1 depends on it. 
+ - Keep `reference_solutions/CosmosSyntaxSolution.rsc` open somewhere so 
+ you can paste from it for a group that is completely stuck during Mission 
+ - A visible countdown timer helps a lot here, so set one up if you can.
 
 ## Introduction, 5 minutes
 
@@ -125,8 +126,7 @@ validation.
 
 ## Mission 6: The variance challenge, 10 minutes
 
-No files, paper only.
-
+**No files, paper only.**
 What they hand in: an EBNF rule for `Manifest` plus a three or four line
 explanation.
 
