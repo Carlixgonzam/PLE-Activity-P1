@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  discover:
+    # Finds every Maven module in the repo that uses the rascal-maven-plugin, so a new
+    # DSL a collaborator adds gets built and type-checked automatically - no workflow
+    # edit needed to onboard it.
+    name: Discover Rascal modules
+    runs-on: ubuntu-latest
+    outputs:
+      modules: ${{ steps.find.outputs.modules }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: find
+        run: |
+          set -euo pipefail
+          mods=()
+          while IFS= read -r -d '' pom; do
+            if grep -q "rascal-maven-plugin" "$pom"; then
+              mods+=("$(dirname "$pom")")
+            fi
+          done < <(find . -name pom.xml -not -path "*/target/*" -print0)
+
+          if [ "${#mods[@]}" -eq 0 ]; then
+            echo "::error::No Rascal Maven modules found (expected at least one pom.xml using rascal-maven-plugin)"
+            exit 1
+          fi
+
+          json=$(printf '%s\n' "${mods[@]}" | jq -R -s -c '
+            split("\n") | map(select(length > 0) | sub("^\\./"; "")) |
+            map({dir: ., name: gsub("/"; "-")})
+          ')
+          echo "Discovered Rascal modules: $json"
+          echo "modules=$json" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build (${{ matrix.name }})
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.discover.outputs.modules) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "11"
+          cache: maven
+
+      - name: Compile and type-check Rascal sources
+        working-directory: ${{ matrix.dir }}
+        run: mvn -B -ntp compile
+
+  dependency-review:
+    name: Dependency review
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+
+  codeql:
+    # Scans the non-Rascal parts of the repo (bridge.py, web/index.html); CodeQL has no
+    # Rascal support, and the Rascal compile step above is the equivalent check for .rsc code.
+    name: CodeQL (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [python, javascript-typescript]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+
+      - uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
