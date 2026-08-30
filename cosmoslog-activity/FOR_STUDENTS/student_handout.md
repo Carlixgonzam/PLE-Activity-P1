@@ -61,7 +61,7 @@ nonterminal, or an EBNF operator.
 | 7 | the `?` in `Duration?` | |
 | 8 | `TimeUnit` | |
 | 9 | `'min'` | |
-| 10 | the `|` in the `Action` rule | |
+| 10 | the `\|` in the `Action` rule | |
 
 Hand your filled table to your TA.
 
