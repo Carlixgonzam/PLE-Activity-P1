@@ -1,40 +1,39 @@
-
 ***
 
 # PLE-Activity-P1
 
 
-## Macro Estructura
+## Macro Structure
 
 ```text
 PLE-Activity-P1/
 ├── rascal-projects.code-workspace
-└── <nombre-actividad>/
-    ├── README.md              # Breve descripción sobre que trata el ejercicio
-    ├── report/                # Explicación formal (LaTeX)
-    ├── FOR_STUDENTS/          # Base de trabajo para los estudiantes
-    │   └── <proyecto-base>/
+└── <activity-name>/
+    ├── README.md              # Brief description of the exercise
+    ├── report/                # Formal explanation (LaTeX)
+    ├── FOR_STUDENTS/          # Working base for students
+    │   └── <base-project>/
     │       ├── pom.xml
     │       ├── META-INF/RASCAL.MF
     │       └── src/main/rascal/
-    │           ├── Syntax.rsc     # Gramática a completar
-    │           ├── Main.rsc       # Punto de entrada
-    │           ├── Plugin.rsc     # Integración con el entorno
-    │           └── instance/      # Ejemplos de entrada/salida
-    └── FOR_TA/                # Material guia para los monitores
-        ├── session_script.md  # Como se deberia de guiarse una tutoria con este ejercicio
-        ├── ta_guide.md        # Que esperar del ejercicio 
+    │           ├── Syntax.rsc     # Grammar to complete
+    │           ├── Main.rsc       # Entry point
+    │           ├── Plugin.rsc     # Environment integration
+    │           └── instance/      # Input/output examples
+    └── FOR_TA/                # Guide material for teaching assistants
+        ├── session_script.md  # How to guide a tutorial session for this exercise
+        ├── ta_guide.md        # What to expect from the exercise
         └── reference_solutions/
 ```
 
-> **Nota:** El contenido de `FOR_STUDENTS` debe ser autosuficiente para realizar la práctica sin revelar la solución. Todo material de corrección, guías de sesión o respuestas deben estar estrictamente en `FOR_TA` y no ser compatido con los estudiantes.
+> **Note:** The content in `FOR_STUDENTS` must be self-sufficient for completing the practice without revealing the solution. All grading materials, session guides, or answers must remain strictly in `FOR_TA` and not be shared with students.
 
-## Flujo de Trabajo
+## Workflow
 
-Para crear o adaptar un ejercicio bajo este patrón:
+To create or adapt an exercise using this pattern:
 
-1.  **Inicializar:** Copia la estructura base dentro de una nueva carpeta `<nombre-actividad>`.
-2.  **Definir:** Implementa la gramática (`Syntax.rsc`) y la lógica principal en `FOR_STUDENTS`.
-3.  **Validar:** Añade casos de prueba concretos en `instance/` para verificar comportamientos válidos e inválidos.
-4.  **Documentar:** Describe el objetivo, instrucciones de ejecución y entregables en el `README.md` de la actividad.
-5.  **Separar:** Mueve soluciones y notas de evaluación a `FOR_TA` antes de publicar el material a los estudiantes.
+1.  **Initialize:** Copy the base structure into a new `<activity-name>` folder.
+2.  **Define:** Implement the grammar (`Syntax.rsc`) and main logic in `FOR_STUDENTS`.
+3.  **Validate:** Add concrete test cases in `instance/` to verify valid and invalid behaviors.
+4.  **Document:** Describe the objective, execution instructions, and deliverables in the activity's `README.md`.
+5.  **Separate:** Move solutions and evaluation notes to `FOR_TA` before publishing the material to students.
