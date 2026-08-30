@@ -49,12 +49,25 @@
         <artifactId>rascal-maven-plugin</artifactId>
         <version>0.8.2</version>
         <configuration>
-          <errorsAsWarnings>true</errorsAsWarnings>
+          <errorsAsWarnings>false</errorsAsWarnings>
           <bin>${project.build.outputDirectory}</bin>
           <srcs>
             <src>${project.basedir}/src/main/rascal</src>
           </srcs>
+          <srcIgnores>
+            <!-- IDE-terminal-only script (VS Code Rascal extension registration); not
+                 resolvable against the plain rascal:0.33.3 Maven dependency, only against
+                 the extension's own bundled runtime. See the file's own header comment. -->
+            <srcIgnore>${project.basedir}/src/main/rascal/Plugin.rsc</srcIgnore>
+          </srcIgnores>
         </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
