@@ -77,6 +77,20 @@ Then open `http://localhost:8000` in a browser. Arrow keys or WASD to
 steer, the snake ticks on its own at the level's speed, and there's a
 New Game button once you top a wall or yourself.
 
+## Editing the level live
+
+`/reset`, the New Game button, re-reads and re-parses
+`levels/level1.snake` from disk every time, no restart needed. Edit that
+file, save it, click New Game, and the change shows up immediately. This
+is what the grammar review activity's opening demo relies on: break a
+wall line, save, show the parse error; fix it, save, click New Game,
+show the new level. For the parse error itself to show up as a red
+squiggle while editing, open this folder in VS Code and run `Plugin.rsc`'s
+main function once, in a new Rascal terminal, the same way `Plugin.rsc`
+works in `cosmoslog-dsl`. That registers `.snake` files with the editor;
+it is unrelated to `Loop.rsc` and `bridge.py`, which is what actually
+runs the game.
+
 ## Known rough edges
 
 `Loop.rsc`'s main loop polls its request file in a tight `while (true)`

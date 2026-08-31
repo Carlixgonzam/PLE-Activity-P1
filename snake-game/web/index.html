@@ -4,196 +4,61 @@
 <meta charset="UTF-8">
 <title>Rascal Snake</title>
 <style>
-  :root {
-    --bg: #0b0f13;
-    --panel: #12181f;
-    --grid: #0f151b;
-    --snake: #39ff88;
-    --snake-head: #baffce;
-    --food: #ff4d5e;
-    --wall: #3a4550;
-    --text: #d8f5e3;
-    --muted: #7a8a92;
-    --accent: #39ff88;
-    --border: #223038;
-  }
-  * { box-sizing: border-box; }
   body {
-    margin: 0;
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--text);
-    font-family: ui-monospace, "SF Mono", "Courier New", monospace;
-    display: flex;
-    justify-content: center;
-    padding: 24px 16px;
+    font-family: sans-serif;
+    max-width: 520px;
+    margin: 40px auto;
+    color: #222;
   }
-  #app {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    align-items: flex-start;
+  canvas {
+    border: 1px solid #999;
+    display: block;
+    margin-top: 10px;
   }
-  h1 {
-    margin: 0 0 4px 0;
-    font-size: 20px;
-    letter-spacing: 2px;
-    color: var(--accent);
+  #gameOverMsg {
+    color: #b00020;
+    font-weight: bold;
   }
-  .col {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  #game-col { align-items: center; }
-
-  #hud {
-    display: flex;
-    gap: 20px;
+  #rascalNote, #lastUpdate {
+    color: #555;
     font-size: 14px;
   }
-  #hud b { color: var(--accent); }
-
-  #board-wrap {
-    position: relative;
-    border: 1px solid var(--border);
-  }
-  canvas { display: block; background: var(--grid); }
-
-  #overlay {
-    position: absolute;
-    inset: 0;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    background: rgba(5, 8, 10, 0.85);
-  }
-  #overlay.show { display: flex; }
-  #overlay p { margin: 0; color: var(--food); letter-spacing: 2px; }
-
-  button {
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    padding: 6px 16px;
-    font-family: inherit;
-    letter-spacing: 1px;
-    cursor: pointer;
-  }
-  button:hover { background: var(--accent); color: #06120a; }
-
-  #hint { font-size: 12px; color: var(--muted); }
-
-  /* Right column: what Rascal is doing */
-  #engine-col {
-    width: 300px;
-    max-width: 100%;
-  }
-  .panel {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    padding: 14px;
-  }
-  .panel h2 {
-    margin: 0 0 8px 0;
-    font-size: 13px;
-    letter-spacing: 1px;
-    color: var(--accent);
-    text-transform: uppercase;
-  }
-  .panel p {
-    margin: 0 0 8px 0;
-    font-size: 12px;
-    line-height: 1.5;
-    color: var(--muted);
-  }
-  .panel p:last-child { margin-bottom: 0; }
-  #diagram {
-    font-size: 11px;
-    color: var(--muted);
-    line-height: 1.6;
-    margin: 10px 0;
-    white-space: pre;
-  }
-  #diagram .who { color: var(--accent); }
-
-  #log {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    max-height: 260px;
-    overflow-y: auto;
-    font-size: 12px;
-  }
-  #log li {
-    padding: 6px 0;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-  }
-  #log li:first-child { color: var(--accent); }
-  #log .tag {
-    color: var(--muted);
-    margin-right: 6px;
+  #lastUpdate {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    margin-top: 20px;
   }
 </style>
 </head>
 <body>
 
-<div id="app">
+<h1>Rascal Snake</h1>
 
-  <div class="col" id="game-col">
-    <h1>RASCAL // SNAKE</h1>
-    <div id="hud">
-      <div>SCORE <b id="score">0</b></div>
-    </div>
-    <div id="board-wrap">
-      <canvas id="board" width="480" height="360"></canvas>
-      <div id="overlay">
-        <p>GAME OVER</p>
-        <button id="restart">NEW GAME</button>
-      </div>
-    </div>
-    <div id="hint">arrow keys or WASD to steer</div>
-  </div>
+<p>Score: <span id="score">0</span> <span id="gameOverMsg"></span></p>
 
-  <div class="col" id="engine-col">
-    <div class="panel">
-      <h2>What Rascal is doing</h2>
-      <p>
-        This page has no game logic. Every key you press, and every tick
-        of the clock, sends a request to a Rascal program that is
-        actually running on this computer. Rascal decides where the
-        snake goes, whether it hit a wall or itself, and when to place
-        new food. This page only draws whatever Rascal sends back.
-      </p>
-      <div id="diagram"><span class="who">browser</span>  --request-->  <span class="who">bridge.py</span>  --request-->  <span class="who">Rascal</span>
-<span class="who">browser</span>  &lt;--state-----  <span class="who">bridge.py</span>  &lt;--state-----  <span class="who">Rascal</span></div>
-      <p>
-        <code>bridge.py</code> only relays messages, it never decides
-        anything about the game itself.
-      </p>
-    </div>
+<canvas id="board" width="480" height="360"></canvas>
 
-    <div class="panel">
-      <h2>Live engine log</h2>
-      <ul id="log"></ul>
-    </div>
-  </div>
+<p><button id="restart">New Game</button></p>
 
-</div>
+<p>Use arrow keys or WASD to steer.</p>
+
+<p id="rascalNote">
+  This page has no game logic. Every move is computed by a Rascal
+  program running on this computer. This page only asks it for the
+  next state and draws it.
+</p>
+
+<p id="lastUpdate">Last update: waiting for the game to start...</p>
 
 <script>
 const canvas = document.getElementById("board");
 const ctx = canvas.getContext("2d");
 const scoreEl = document.getElementById("score");
-const overlay = document.getElementById("overlay");
+const gameOverEl = document.getElementById("gameOverMsg");
+const lastUpdateEl = document.getElementById("lastUpdate");
 const restartBtn = document.getElementById("restart");
-const logEl = document.getElementById("log");
 
 let tickHandle = null;
-let lastSnakeHead = null;
 
 const keyToDir = {
   "ArrowUp": "up", "w": "up", "W": "up",
@@ -207,26 +72,12 @@ async function fetchJSON(path) {
   return res.json();
 }
 
-function logLine(tag, text) {
-  const li = document.createElement("li");
-  li.innerHTML = `<span class="tag">${tag}</span>${text}`;
-  logEl.prepend(li);
-  while (logEl.children.length > 12) {
-    logEl.removeChild(logEl.lastChild);
-  }
-}
-
-function describe(action, state) {
+function describe(state) {
   const head = state.snake[0];
-  const movedText = lastSnakeHead && (head[0] !== lastSnakeHead[0] || head[1] !== lastSnakeHead[1])
-    ? `moved to (${head[0]}, ${head[1]})`
-    : `stayed at (${head[0]}, ${head[1]})`;
-  lastSnakeHead = head;
-
   if (state.gameOver) {
-    return `Rascal: ${movedText}, hit something, game over. Score ${state.score}.`;
+    return `Last update: Rascal reported a collision at (${head[0]}, ${head[1]}). Game over, score ${state.score}.`;
   }
-  return `Rascal: ${movedText}, heading ${state.direction}, score ${state.score}.`;
+  return `Last update: Rascal moved the head to (${head[0]}, ${head[1]}), heading ${state.direction}, score ${state.score}.`;
 }
 
 function draw(state) {
@@ -234,24 +85,25 @@ function draw(state) {
   canvas.width = state.width * cell;
   canvas.height = state.height * cell;
 
-  ctx.fillStyle = "#0f151b";
+  ctx.fillStyle = "#eeeeee";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  ctx.fillStyle = "#3a4550";
+  ctx.fillStyle = "#999999";
   for (const [x, y] of state.walls) {
     ctx.fillRect(x * cell, y * cell, cell, cell);
   }
 
-  ctx.fillStyle = "#ff4d5e";
+  ctx.fillStyle = "#c0392b";
   ctx.fillRect(state.food[0] * cell + 2, state.food[1] * cell + 2, cell - 4, cell - 4);
 
-  state.snake.forEach(([x, y], i) => {
-    ctx.fillStyle = i === 0 ? "#baffce" : "#39ff88";
+  ctx.fillStyle = "#2e7d32";
+  state.snake.forEach(([x, y]) => {
     ctx.fillRect(x * cell + 1, y * cell + 1, cell - 2, cell - 2);
   });
 
   scoreEl.textContent = state.score;
-  overlay.classList.toggle("show", state.gameOver);
+  gameOverEl.textContent = state.gameOver ? "Game over" : "";
+  lastUpdateEl.textContent = describe(state);
 
   if (state.gameOver && tickHandle) {
     clearInterval(tickHandle);
@@ -260,9 +112,7 @@ function draw(state) {
 }
 
 async function tick() {
-  const state = await fetchJSON("/tick");
-  logLine("tick", describe("tick", state));
-  draw(state);
+  draw(await fetchJSON("/tick"));
 }
 
 function startLoop(speed) {
@@ -272,8 +122,6 @@ function startLoop(speed) {
 
 async function newGame() {
   const state = await fetchJSON("/reset");
-  lastSnakeHead = null;
-  logLine("reset", `Rascal: new game, snake length ${state.snake.length}, food at (${state.food[0]}, ${state.food[1]}).`);
   draw(state);
   startLoop(state.speed);
 }
@@ -282,15 +130,12 @@ window.addEventListener("keydown", async (e) => {
   const dir = keyToDir[e.key];
   if (!dir) return;
   e.preventDefault();
-  const state = await fetchJSON("/move?dir=" + dir);
-  logLine("move " + dir, `Rascal: direction request queued for the next tick.`);
-  draw(state);
+  draw(await fetchJSON("/move?dir=" + dir));
 });
 
 restartBtn.addEventListener("click", newGame);
 
 fetchJSON("/state").then((state) => {
-  logLine("state", describe("state", state));
   draw(state);
   startLoop(state.speed);
 });
